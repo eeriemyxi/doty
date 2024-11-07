@@ -90,7 +90,8 @@ def fzf_search(prompt, items) -> int:
     )
 
     with open(tmp_file) as file:
-        return int(file.read()[0]) - 1
+        file_str = file.read()
+        return int(file_str[:file_str.index(".")]) - 1
 
     tmp_file.unlink()
 
