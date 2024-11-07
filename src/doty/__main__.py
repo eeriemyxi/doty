@@ -67,7 +67,8 @@ def open_book(args, cur, conn):
     page = res.fetchone()[0]
 
     result = subprocess.run(
-        [ZATHURA_EXE, *ZATHURA_FLAGS, file_path, "--page", str(page)], capture_output=True
+        [ZATHURA_EXE, *ZATHURA_FLAGS, file_path, "--page", str(page)],
+        capture_output=True,
     )
     res_stderr = result.stderr.decode()
 
@@ -134,6 +135,7 @@ db_con = sqlite3.connect(SQLITE_FILE_PATH)
 db_con.cursor().executescript(SQL_SCRIPT)
 
 args.func(args, db_con.cursor(), db_con)
+
 
 def main():
     pass
