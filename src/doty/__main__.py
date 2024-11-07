@@ -12,9 +12,6 @@ ZATHURA_EXE = "zathura"
 ZATHURA_FLAGS = ("-l", "debug")
 FZF_EXE = "fzf"
 
-with open("src/doty/schema.sql") as file:
-    SQL_SCRIPT = file.read()
-
 
 def get_sql_file_path():
     match sys.platform:
@@ -123,6 +120,9 @@ parser_rem = subparsers.add_parser(
     help=f"Remove a book from the database.",
 )
 parser_rem.set_defaults(func=rem_book)
+
+with open("src/doty/schema.sql") as file:
+    SQL_SCRIPT = file.read()
 
 SQLITE_FILE_PATH = get_sql_file_path()
 
