@@ -1,11 +1,11 @@
+import argparse
+import os
+import pathlib
 import re
+import sqlite3
 import subprocess
 import sys
-import os
-import sqlite3
-import pathlib
 import uuid
-import argparse
 
 PAGE_RE = re.compile(r"debug: .+: Emitting signal for page (?P<page>\d+)")
 ZATHURA_EXE = "zathura"
