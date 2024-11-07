@@ -54,7 +54,7 @@ def open_book(args, cur, conn):
     paths = [x[0] for x in paths_r]
 
     file_index = fzf_search(
-        prompt="Search book: ",
+        prompt="Search a book: ",
         items=paths,
     )
 
