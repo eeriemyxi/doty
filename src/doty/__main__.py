@@ -47,7 +47,7 @@ def rem_book(args, cur, conn):
     res = cur.execute("DELETE FROM books WHERE path=?", [file_path])
     conn.commit()
 
-    print(f"Successfully removed {file_path} to the database.")
+    print(f"Successfully removed {file_path} from the database.")
 
 
 def open_book(args, cur, conn):
