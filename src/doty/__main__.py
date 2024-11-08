@@ -90,15 +90,15 @@ def open_book(args, cur, conn):
 def fzf_search(prompt, items) -> int:
     items_string = "\n".join(f"{i}. {item}" for i, item in enumerate(items, 1))
     tmp_file = pathlib.Path(f"/tmp/{uuid.uuid4()}.doty.txt")
-    tmp_file_buf = open(tmp_file, "w")
 
-    res = subprocess.run(
-        [FZF_EXE, "--prompt", prompt],
-        stdout=tmp_file_buf,
-        input=items_string,
-        shell=True,
-        text=True,
-    )
+    with open(tmp_file, "w") as file:
+        res = subprocess.run(
+            [FZF_EXE, "--prompt"],
+            stdout=file,
+            input=items_string,
+            shell=True,
+            text=True,
+        )
 
     if res.returncode != 0:
         return -1
@@ -108,7 +108,6 @@ def fzf_search(prompt, items) -> int:
         return int(file_str[:file_str.index(".")]) - 1
 
     tmp_file.unlink()
-    tmp_file_buf.close()
 
 
 parser = argparse.ArgumentParser(
