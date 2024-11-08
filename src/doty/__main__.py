@@ -11,6 +11,7 @@ PAGE_RE = re.compile(r"debug: .+: Emitting signal for page (?P<page>\d+)")
 ZATHURA_EXE = "zathura"
 ZATHURA_FLAGS = ("-l", "debug")
 FZF_EXE = "fzf"
+SCRIPT_DIR = pathlib.Path(__file__).parent
 
 
 def get_sql_file_path():
@@ -122,7 +123,7 @@ parser_rem = subparsers.add_parser(
 )
 parser_rem.set_defaults(func=rem_book)
 
-with open("src/doty/schema.sql") as file:
+with open(SCRIPT_DIR/ "schema.sql") as file:
     SQL_SCRIPT = file.read()
 
 SQLITE_FILE_PATH = get_sql_file_path()
