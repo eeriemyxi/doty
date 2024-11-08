@@ -40,6 +40,10 @@ def rem_book(args, cur, conn):
         items=paths,
     )
 
+    if file_index == -1:
+        print("INFO: the action was cancelled.", file=sys.stderr)
+        return
+
     file_path = paths[file_index]
 
     res = cur.execute("DELETE FROM books WHERE path=?", [file_path])
@@ -58,6 +62,10 @@ def open_book(args, cur, conn):
         prompt="Search a book: ",
         items=paths,
     )
+
+    if file_index == -1:
+        print("INFO: the action was cancelled.", file=sys.stderr)
+        return
 
     file_path = paths[file_index]
 
@@ -82,19 +90,25 @@ def open_book(args, cur, conn):
 def fzf_search(prompt, items) -> int:
     items_string = "\n".join(f"{i}. {item}" for i, item in enumerate(items, 1))
     tmp_file = pathlib.Path(f"/tmp/{uuid.uuid4()}.doty.txt")
+    tmp_file_buf = open(tmp_file, "w")
 
-    res = subprocess.check_output(
-        f"{FZF_EXE} --prompt {prompt!r} > {tmp_file}",
+    res = subprocess.run(
+        [FZF_EXE, "--prompt", prompt],
+        stdout=tmp_file_buf,
         input=items_string,
         shell=True,
         text=True,
     )
+
+    if res.returncode != 0:
+        return -1
 
     with open(tmp_file) as file:
         file_str = file.read()
         return int(file_str[:file_str.index(".")]) - 1
 
     tmp_file.unlink()
+    tmp_file_buf.close()
 
 
 parser = argparse.ArgumentParser(
