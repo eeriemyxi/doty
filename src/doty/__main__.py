@@ -24,7 +24,10 @@ def get_sql_file_path():
 
 
 def add_book(args, cur, conn):
-    res = cur.execute("INSERT INTO books(path) VALUES(?)", [str(args.file)])
+    res = cur.execute("INSERT INTO books(path) VALUES(?)", [str(args.file.resolve())])
+    if not res:
+        print(f"ERROR: couldn't add '{args.file}' to the database. (hint: maybe it's already in there.)", file=sys.stderr)
+        exit(1)
     conn.commit()
     print(f"Successfully added {args.file} to the database.")
 
